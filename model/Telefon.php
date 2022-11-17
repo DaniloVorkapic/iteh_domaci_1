@@ -26,7 +26,12 @@ class Telefon{
         $query= "select * from telefon p inner join user u on u.id=p.user";
         return $conn->query($query);
     }
+    public static function deletePhone($id,$conn){
 
+        $query = "delete from telefon where phoneID=$id";
+        return $conn->query($query);
+
+    }
 }
 
 ?>

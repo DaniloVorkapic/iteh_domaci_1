@@ -76,6 +76,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+    <script src="js/main.js"></script>
 </head>
 
 <body  style="   background-image: url('images/bg-03.jfif');    background-repeat: no-repeat;   background-attachment: fixed;  background-size: cover;">
@@ -95,7 +96,8 @@
                 <th scope="col">Description</th>
                 <th scope="col"><i class="fas fa-euro-sign"></i>  Price</th>
                 <th scope="col"><i class="fas fa-user"></i>  User</th>
-                
+                <th scope="col">Options</th>
+
                 
 
                 </tr>
@@ -110,7 +112,16 @@
                         <td>  <?php echo $row["description"]   ?> </td>
                         <td> <?php echo $row["price"]   ?> </td>
                         <td> <?php echo $row["firstname"]." ".$row["lastname"]    ?> </td>
-                        
+                        <td>
+                            <form  method="post">
+                                    <button type="button" class="btn btn-danger"   onclick="deletePhone( <?php echo $row['phoneID']   ?>  )" ><i class="fas fa-trash"></i></button>  
+
+
+
+                            </form>
+
+
+                        </td>
                         
                         </tr>
                     
@@ -228,6 +239,23 @@
 
 
         }
+
+
+
+        function deletePhone( deleteid){
+            $.ajax({
+                url: 'handler/delete.php',
+                type: 'post',
+                data: { deletesend: deleteid  },
+               
+                success: function(data, status){
+                    location.reload(true);
+                    alert("Uspesno obrisano!");
+                     
+                }
+            });
+        }
     </script>
+   
 </body>
 </html>
