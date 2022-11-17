@@ -25,7 +25,12 @@ class User{
 
     }
 
+    public static function register($user,$conn){
+        $query = "insert into user(firstname, lastname,email, password) values('$user->firstname','$user->lastname','$user->email','$user->password') ";
+    
+        return $conn->query($query);
 
+    }
 
 }
 
