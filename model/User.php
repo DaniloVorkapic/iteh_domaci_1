@@ -18,7 +18,12 @@ class User{
 
     }
    
- 
+    public static function login($user,$conn){
+        $query = "select * from user where email='$user->email' and password='$user->password'";
+
+        return $conn->query($query);
+
+    }
 
 
 

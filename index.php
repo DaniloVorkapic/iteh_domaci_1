@@ -1,3 +1,8 @@
+<?php
+
+    require 'login.php';
+
+?>
 <!doctype html>
 <html lang="en">
   <head>
@@ -17,7 +22,7 @@
 		<div class="container">
 			<div class="row justify-content-center">
 				<div class="col-md-6 text-center mb-5">
-					<h2 class="heading-section">Login</h2>
+					<h2 class="heading-section">Login </h2>
 				</div>
 			</div>
 			<div class="row justify-content-center">
@@ -27,7 +32,7 @@
 		      		<span class="fa fa-user-o"></span>
 		      	</div>
 		      	<h3 class="text-center mb-4">Have an account?</h3>
-						<form action="#" class="login-form">
+                <form method="post" class="login-form">
 		      		<div class="form-group">
 		      			<input type="email" class="form-control rounded-left" placeholder="Email" name="email" required>
 		      		</div>
@@ -46,7 +51,7 @@
 								</div>
 	            </div>
 	            <div class="form-group">
-	            	<button type="submit" class="btn btn-primary rounded submit p-3 px-5">Get Started</button>
+	            	<button type="submit" class="btn btn-primary rounded submit p-3 px-5" name="login" >Get Started</button>
 	            </div>
 	          </form>
 	        </div>
