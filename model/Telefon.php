@@ -21,7 +21,11 @@ class Telefon{
 
     }
 
-  
+    public static function getAllPhones($conn){
+        
+        $query= "select * from telefon p inner join user u on u.id=p.user";
+        return $conn->query($query);
+    }
 
 }
 
