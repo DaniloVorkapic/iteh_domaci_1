@@ -80,13 +80,39 @@
 </head>
 
 <body  style="   background-image: url('images/bg-03.jfif');    background-repeat: no-repeat;   background-attachment: fixed;  background-size: cover;">
+
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+                <a class="navbar-brand" href="#"> <i class="fa fa-home" aria-hidden="true"></i>  Welcome!, <strong><?php echo  User::getUserById($_SESSION['currentUser'],$conn)?>  </strong> </a>
+                 
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav" style="padding-left:95%" >
+                    
+                        <li class="nav-item  ">
+                            <a class="nav-link" href="logout.php" >Log out  </a>
+                        </li>
+                    </ul>
+                </div>
+        </nav>
+
+
+
+
+
+
+
+
+
+
+
+
+
     <div class="mainPart" style="background-color: 	rgb(208,208,208,0.9) ;   border-radius: 5px; padding:30px; margin:10%" >
 
         <h2><i class="fa fa-mobile" aria-hidden="true"></i> Mobile phones</h2> 
         <input type="text" id="myInput" onkeyup="search()" placeholder="Search for models.." title="Type in a model" style="float:right;font-size:25px;border:none;
             border-radius: 5px;">   <i class="fa fa-search" aria-hidden="true" style="float:right; font-size:30px;padding:4px"></i>
 
-        <?php echo  $_SESSION["currentUser"]   ?> 
+       
 
         <table class="table table-hover"  style=" color:black; "  id="myTable">
             <thead>
@@ -115,6 +141,7 @@
                         <td>
                             <form  method="post">
                                     <button type="button" class="btn btn-danger"   onclick="deletePhone( <?php echo $row['phoneID']   ?>  )" ><i class="fas fa-trash"></i></button>  
+                                    <button type="button" class="btn btn-success"    data-toggle="modal" data-target="#updateModal" onclick="getDetailsUpdateModal(<?php echo $row['phoneID']?> )" >  <i class="fas fa-pencil-alt"></i> </button> 
 
 
 
@@ -203,7 +230,52 @@
 
 
 
+ <!-- Modal za update   telefon -->
+ <div class="modal fade" id="updateModal" tabindex="-1" role="dialog" aria-labelledby="lblUpdateModal" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="titleUpdate">Update mobile phone</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
 
+                        <div class="modal-body">
+                              
+                        <form  id="updateform" style="max-width:500px;margin:auto" method="POST" enctype="multipart/form-data">
+ 
+                            <div class="input-container">
+                                <i class="fa fa-user icon"></i>
+                                <input class="input-field" type="text" placeholder="Model" name="modelupdate" id="modelupdate" required>
+                            </div>
+
+                            <div class="input-container">
+                                <i class="fa fa-pencil icon"></i>
+                                <input class="input-field" type="text" placeholder="Description" name="descriptionupdate" id="descriptionupdate" required>
+                            </div>
+                            
+                            <div class="input-container">
+                                <i class="fa fa-tag icon"></i>
+                                <input class="input-field" type="text" placeholder="Price" name="priceupdate" id="priceupdate" required>
+                            </div>
+                            <input  class="input-field" type="text" id="hiddenData" name ="hiddenData">
+                       
+                            <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-primary" id="update" name="update"  >  Update</button>
+                            
+                        </div>                   
+                    
+                        </form>
+
+
+                        </div>
+                        
+                       
+                </div>
+            </div>
+        </div>
 
 
 
@@ -432,9 +504,7 @@
 
                     alert("Telefon dodat ");
                     console.log("Uspesno dodavanje");
-                    console.log(response)
-                    console.log(textStatus)
-                    alert("Telefon dodat ");
+                   
                     location.reload(true);
                 
             });
@@ -443,6 +513,29 @@
                 console.error('Greska: ' + textStatus, errorThrown);
             });
             });
+
+
+
+            
+            function getDetailsUpdateModal(updateid){
+                $('#hiddenData').val(updateid);  //postavljamo vrednost skrivenog polja da bude id od telefona koji treba da azuriramo 
+
+                $.post("handler/get.php",{updateid:updateid},function(data,status){
+                    console.log(status);
+                    console.log(updateid);
+                    console.log(data);
+                    var phoneid=JSON.parse(data);//uzimamo podatke i parsisamo ih u JSON
+                    console.log(phoneid);        //uzimamo podatke iz baze i cuvamo ih u input field
+                    console.log(phoneid.model);
+                    $('#modelupdate').val(phoneid.model);
+                    $('#descriptionupdate').val(phoneid.description);
+                    $('#priceupdate').val(phoneid.price);
+
+                });
+
+
+            }
+
     </script>
    
 </body>
