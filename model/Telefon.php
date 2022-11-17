@@ -49,6 +49,13 @@ class Telefon{
 
 
     }
+
+    public static function updatePhone($phone,$conn){
+
+        $query = "update telefon set model='$phone->model', description = '$phone->description', price = $phone->price where phoneID = $phone->id";
+        return $conn->query($query);
+
+    }
 }
 
 ?>

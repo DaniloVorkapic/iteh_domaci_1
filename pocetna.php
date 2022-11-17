@@ -535,7 +535,40 @@
 
 
             }
+            $('#updateform').submit(function () {
+ 
+                event.preventDefault();
 
+                const $form =  $(this);
+
+                const $inputs = $form.find('input, select, button, textarea');
+
+                const serializedData = $form.serialize();
+
+                $inputs.prop('disabled', true);
+
+
+                request = $.ajax({
+                    url: 'handler/update.php',
+                    type: 'post',
+                    data: serializedData
+                })
+
+                request.done(function (response, textStatus, jqXHR) {
+
+                    $('#updateModal').modal('hide');
+                    location.reload(true);
+                    $('#updateform').reset;
+
+                });
+
+                request.fail(function (jqXHR, textStatus, errorThrown) {
+                    console.error('The following error occurred: ' + textStatus, errorThrown);
+                });
+
+
+
+                });
     </script>
    
 </body>
