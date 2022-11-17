@@ -32,6 +32,15 @@ class Telefon{
         return $conn->query($query);
 
     }
+
+    public static function addPhone($phone, $conn){
+    
+        $query= "insert into telefon(model,description,price,user ) values('$phone->model','$phone->description',$phone->price,$phone->user )";
+     
+        return $conn->query($query);
+        
+    
+    }
 }
 
 ?>

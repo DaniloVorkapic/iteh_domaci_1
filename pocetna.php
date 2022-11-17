@@ -1,7 +1,7 @@
 <?php 
     include 'dbbroker.php';
     include 'model/Telefon.php';
-  
+    include 'login.php';
   
     $result = Telefon::getAllPhones($conn);  
  
@@ -86,7 +86,7 @@
         <input type="text" id="myInput" onkeyup="search()" placeholder="Search for models.." title="Type in a model" style="float:right;font-size:25px;border:none;
             border-radius: 5px;">   <i class="fa fa-search" aria-hidden="true" style="float:right; font-size:30px;padding:4px"></i>
 
-
+        <?php echo  $_SESSION["currentUser"]   ?> 
 
         <table class="table table-hover"  style=" color:black; "  id="myTable">
             <thead>
@@ -133,8 +133,155 @@
         </table>
         <button type="button" class="btn btn-secondary" id="sortTable"  onclick="sortTableD()"  ><i class="fa fa-sort" aria-hidden="true"></i>  Sort table by name descending</button>                    
         <button type="button" class="btn btn-secondary" id="sortTable"  onclick="sortTableA()"  ><i class="fa fa-sort" aria-hidden="true"></i>  Sort table by name ascending</button>                    
+        <button type="button" class="btn btn-primary" id="btnAddNew" data-toggle="modal" data-target="#addNewModal" > <i class="fas fa-plus"></i> Add new mobile phone</button>   
         
-</div>
+    </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <!-- Modal za add new telefon -->
+        <div class="modal fade" id="addNewModal" tabindex="-1" role="dialog" aria-labelledby="lblAddNewModal" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                            <div class="modal-header">
+                            <h5 class="modal-title" id="titleAdd">Add new mobile phone</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+
+                        <div class="modal-body">
+                              
+                        <form  id="addform" style="max-width:500px;margin:auto" method="POST" enctype="multipart/form-data">
+ 
+                            <div class="input-container">
+                                <i class="fa fa-user icon"></i>
+                                <input class="input-field" type="text" placeholder="Model" name="model" id="model" required>
+                            </div>
+
+                            <div class="input-container">
+                                <i class="fa fa-pencil icon"></i>
+                                <input class="input-field" type="text" placeholder="Description" name="description" id="description" required>
+                            </div>
+                            
+                            <div class="input-container">
+                            <i class="fa fa-tag icon"></i>
+                                <input class="input-field" type="text" placeholder="Price" name="price" id="price" required>
+                            </div>
+                            
+                       
+                            <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-primary" id="add" name="add"> <i class="fas fa-plus"></i> Add</button>
+                        </div>                   
+                    
+                        </form>
+
+
+                        </div>
+                        
+                       
+                </div>
+            </div>
+        </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     <script>
 
         function search(){
@@ -255,6 +402,47 @@
                 }
             });
         }
+
+
+
+
+
+        $('#addform').submit(function () {
+            
+            event.preventDefault();  
+            
+            const $form = $(this);
+
+            const $input = $form.find('input,select,button,textarea');
+
+            const serijalizacija = $form.serialize();  
+            console.log(serijalizacija); 
+
+            $input.prop('disabled', true);   
+
+
+            request = $.ajax({  
+                url: 'handler/add.php',  
+                type: 'post',
+                data: serijalizacija
+            });
+
+            request.done(function (response, textStatus, jqXHR) {
+                
+
+                    alert("Telefon dodat ");
+                    console.log("Uspesno dodavanje");
+                    console.log(response)
+                    console.log(textStatus)
+                    alert("Telefon dodat ");
+                    location.reload(true);
+                
+            });
+
+            request.fail(function (jqXHR, textStatus, errorThrown) {
+                console.error('Greska: ' + textStatus, errorThrown);
+            });
+            });
     </script>
    
 </body>
